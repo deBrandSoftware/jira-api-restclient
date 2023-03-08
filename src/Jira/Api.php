@@ -388,6 +388,32 @@ class Api
 	}
 
 	/**
+	 * Add a worklog to an issue.
+	 *
+	 * @param string $issue_key Issue key should be "YOURPROJ-22".
+	 * @param array  $params    Params.
+	 *
+	 * @return Result|false
+	 */
+	public function addWorklog($issue_key, array $params)
+	{
+		return $this->api(self::REQUEST_POST, sprintf('/rest/api/2/issue/%s/worklog', $issue_key), $params);
+	}
+
+	/**
+	 * Edits a worklog on an issue.
+	 *
+	 * @param string $issue_key Issue key should be "YOURPROJ-22".
+	 * @param array  $params    Params.
+	 *
+	 * @return Result|false
+	 */
+	public function updateWorklog($issue_key, $worklog_id, array $params)
+	{
+		return $this->api(self::REQUEST_PUT, sprintf('/rest/api/2/issue/%s/worklog/%s', $issue_key, $worklog_id), $params);
+	}
+
+	/**
 	 * Get available transitions for a ticket.
 	 *
 	 * @param string $issue_key Issue key should be "YOURPROJ-22".
@@ -684,10 +710,10 @@ class Api
 		array $application = null
 	) {
 		$options = array(
-						'globalId' => $global_id,
-						'relationship' => $relationship,
-						'object' => $object,
-					);
+			'globalId' => $global_id,
+			'relationship' => $relationship,
+			'object' => $object,
+		);
 
 		if ( !is_null($application) ) {
 			$options['application'] = $application;
